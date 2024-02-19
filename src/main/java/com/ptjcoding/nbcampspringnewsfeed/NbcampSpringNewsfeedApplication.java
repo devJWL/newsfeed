@@ -1,12 +1,12 @@
 package com.ptjcoding.nbcampspringnewsfeed;
 
+import lombok.Generated;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
-@EnableJpaAuditing
+@Generated
 @SpringBootApplication(exclude = SecurityAutoConfiguration.class)
 @PropertySource(value = {"classpath:db.properties", "classpath:jwt.properties"})
 public class NbcampSpringNewsfeedApplication {
