@@ -62,6 +62,9 @@ dependencies {
     // h2database
     runtimeOnly 'com.h2database:h2'
 
+    // fixture monkey
+    testImplementation("com.navercorp.fixturemonkey:fixture-monkey-starter:1.0.13")
+
     // Security
     implementation 'org.springframework.boot:spring-boot-starter-security'
 
