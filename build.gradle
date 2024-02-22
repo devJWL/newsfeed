@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.2.2'
     id 'io.spring.dependency-management' version '1.1.4'
+    id 'jacoco'
 }
 
 group = 'com.ptjcoding'
@@ -21,6 +22,34 @@ repositories {
     mavenCentral()
 }
 
+jacocoTestReport {
+    reports {
+        html.required = true
+        xml.required = false
+        csv.required = false
+
+// 리포트의 저장 경로를 설정합니다.
+        html.destination file("jacoco/jacocoHtml")
+        xml.destination file("jacoco/jacoco.xml")
+        csv.destination file("jacoco/jacoco.csv")
+    }
+}
+
+jacocoTestCoverageVerification {
+
+    violationRules { // 커버리지의 범위와 퍼센테이지를 설정합니다.
+        rule {
+            element = 'CLASS'
+
+            limit {
+                counter = 'BRANCH'
+                value = 'COVEREDRATIO'
+                minimum = 0.60
+            }
+        }
+    }
+}
+
 dependencies {
     // WEB
     implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -30,6 +59,11 @@ dependencies {
 
     // MySql
     runtimeOnly 'com.mysql:mysql-connector-j'
+    // h2database
+    runtimeOnly 'com.h2database:h2'
+
+    // fixture monkey
+    testImplementation("com.navercorp.fixturemonkey:fixture-monkey-starter:1.0.13")
 
     // Security
     implementation 'org.springframework.boot:spring-boot-starter-security'
@@ -53,8 +87,11 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
 
+    // Mockito
+    testImplementation "org.mockito:mockito-core:3.+"
 }
 
 tasks.named('test') {
     useJUnitPlatform()
+    finalizedBy jacocoTestReport
 }
